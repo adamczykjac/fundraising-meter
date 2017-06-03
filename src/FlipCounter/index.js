@@ -29,21 +29,22 @@ export default class FlipCounter {
       return parseInt(digitString);
     })
     let currentValueLength = this.currentValue.toString().length
-    let maxValueLength = this.currentValue.toString().length
+    let maxValueLength = this.MAX_VALUE.toString().length
     if(currentValueLength < maxValueLength) {
       // fill the the array with leading zeros if number too small for the counter
-      Array(maxValueLength - currentValueLength).fill(0)
+      let blankArr = Array(maxValueLength - currentValueLength).fill(0)
+      digitsArray = blankArr.concat(digitsArray)
     }
-    this.setFlips(digitsArray);
+    this.renderFlips(digitsArray);
   }
   
-  setFlips(digitsArr) {
-    setUnits(digitsArr[0]);
-    setTens(digitsArr[1]);
-    setHundreds(digitsArr[2]);
-    setThousands(digitsArr[3]);
+  renderFlips(digitsArr) {
+    renderThousands(digitsArr[0]);
+    renderHundreds(digitsArr[1]);
+    renderTens(digitsArr[2]);
+    renderUnits(digitsArr[3]);
     
-    function setUnits(val) {
+    function renderUnits(val) {
       var aa = $("ul.units li.active");
       var nxt;
       
@@ -60,7 +61,7 @@ export default class FlipCounter {
       }
     }
     
-    function setTens(val) {    
+    function renderTens(val) {    
       var aa = $("ul.tens li.active");
       var nxt;
       
@@ -77,7 +78,7 @@ export default class FlipCounter {
       }
     }
         
-    function setHundreds(val) {    
+    function renderHundreds(val) {    
       var aa = $("ul.hundreds li.active");
       var nxt;
       
@@ -94,7 +95,7 @@ export default class FlipCounter {
       }
     }
         
-    function setThousands(val) {    
+    function renderThousands(val) {    
       var aa = $("ul.thousands li.active");
       var nxt;
       
@@ -128,4 +129,146 @@ export default class FlipCounter {
     }
     this.currentValue += val;
   }
+  
+    thousandsIncrement() {
+        $("body").removeClass("play");
+        var aa = $("ul.thousands li.active");
+    
+        if (aa.html() == undefined) {
+            aa = $("ul.thousands li").eq(0);
+            aa.addClass("before")
+                .removeClass("active")
+                .next("li")
+                .addClass("active")
+                .closest("body")
+                .addClass("play");
+    
+        }
+        else if (aa.is(":last-child")) {
+            $("ul.thousands li").removeClass("before");
+            aa.addClass("before").removeClass("active");
+            aa = $("ul.hundreds li").eq(0);
+            aa.addClass("active")
+                .closest("body")
+                .addClass("play");
+            this.thousandsIncrement();
+        }
+        else {
+            $("ul.thousands li").removeClass("before");
+            aa.addClass("before")
+                .removeClass("active")
+                .next("li")
+                .addClass("active")
+                .closest("body")
+                .addClass("play");
+        }
+    
+    }
+    
+    hundredsIncrement() {
+        $("body").removeClass("play");
+        var aa = $("ul.hundreds li.active");
+    
+        if (aa.html() == undefined) {
+            aa = $("ul.minutePlay li").eq(0);
+            aa.addClass("before")
+                .removeClass("active")
+                .next("li")
+                .addClass("active")
+                .closest("body")
+                .addClass("play");
+    
+        }
+        else if (aa.is(":last-child")) {
+            $("ul.hundreds li").removeClass("before");
+            aa.addClass("before").removeClass("active");
+            aa = $("ul.hundreds li").eq(0);
+            aa.addClass("active")
+                .closest("body")
+                .addClass("play");
+            this.thousandsIncrement();
+        }
+        else {
+            $("ul.hundreds li").removeClass("before");
+            aa.addClass("before")
+                .removeClass("active")
+                .next("li")
+                .addClass("active")
+                .closest("body")
+                .addClass("play");
+        }
+    
+    }
+    
+    
+    tensIncrement() {
+        $("body").removeClass("play");
+        var aa = $("ul.tens li.active");
+    
+        if (aa.html() == undefined) {
+            aa = $("ul.tens li").eq(0);
+            aa.addClass("before")
+                .removeClass("active")
+                .next("li")
+                .addClass("active")
+                .closest("body")
+                .addClass("play");
+    
+        }
+        else if (aa.is(":last-child")) {
+            $("ul.tens li").removeClass("before");
+            aa.addClass("before").removeClass("active");
+            aa = $("ul.tens li").eq(0);
+            aa.addClass("active")
+                .closest("body")
+                .addClass("play");
+            this.hundredsIncrement();
+        }
+        else {
+            $("ul.tens li").removeClass("before");
+            aa.addClass("before")
+                .removeClass("active")
+                .next("li")
+                .addClass("active")
+                .closest("body")
+                .addClass("play");
+        }
+    
+    }
+    
+    unitsIncrement() {
+        $("body").removeClass("play");
+        var aa = $("ul.units li.active");
+    
+        if (aa.html() == undefined) {
+            aa = $("ul.units li").eq(0);
+            aa.addClass("before")
+                .removeClass("active")
+                .next("li")
+                .addClass("active")
+                .closest("body")
+                .addClass("play");
+    
+        }
+        else if (aa.is(":last-child")) {
+            $("ul.units li").removeClass("before");
+            aa.addClass("before").removeClass("active");
+            aa = $("ul.units li").eq(0);
+            aa.addClass("active")
+                .closest("body")
+                .addClass("play");
+            this.tensIncrement();
+        }
+        else {
+            $("ul.units li").removeClass("before");
+            aa.addClass("before")
+                .removeClass("active")
+                .next("li")
+                .addClass("active")
+                .closest("body")
+                .addClass("play");
+        }
+        let snd = new Audio("./assets/sounds/click.wav");
+        snd.play();
+    }
 }
