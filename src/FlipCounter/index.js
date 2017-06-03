@@ -39,73 +39,22 @@ export default class FlipCounter {
   }
   
   renderFlips(digitsArr) {
-    renderThousands(digitsArr[0]);
-    renderHundreds(digitsArr[1]);
-    renderTens(digitsArr[2]);
-    renderUnits(digitsArr[3]);
+    renderFlip("thousands", digitsArr[0]);
+    renderFlip("hundreds", digitsArr[1]);
+    renderFlip("tens", digitsArr[2]);
+    renderFlip("units", digitsArr[3]);
     
-    function renderUnits(val) {
-      var aa = $("ul.units li.active");
+    function renderFlip(position, val) {
+      var aa = $("ul." + position + " li.active");
       var nxt;
       
       if (aa.html() == undefined) {
-        aa = $("ul.units li").eq(0);
+        aa = $("ul." + position + " li").eq(0);
       if (val != 0) {
         aa.addClass("before")
           .removeClass("active");
       }
-        nxt = $("ul.units li").eq(val);
-        nxt.addClass("active")
-          .closest("body")
-          .addClass("play");
-      }
-    }
-    
-    function renderTens(val) {    
-      var aa = $("ul.tens li.active");
-      var nxt;
-      
-      if (aa.html() == undefined) {
-        aa = $("ul.tens li").eq(0);
-        if (val != 0) {
-          aa.addClass("before")
-            .removeClass("active");
-        }
-        nxt = $("ul.tens li").eq(val);
-        nxt.addClass("active")
-          .closest("body")
-          .addClass("play");
-      }
-    }
-        
-    function renderHundreds(val) {    
-      var aa = $("ul.hundreds li.active");
-      var nxt;
-      
-      if (aa.html() == undefined) {
-        aa = $("ul.hundreds li").eq(0);
-        if (val != 0) {
-          aa.addClass("before")
-            .removeClass("active");
-        }
-        nxt = $("ul.hundreds li").eq(val);
-        nxt.addClass("active")
-          .closest("body")
-          .addClass("play");
-      }
-    }
-        
-    function renderThousands(val) {    
-      var aa = $("ul.thousands li.active");
-      var nxt;
-      
-      if (aa.html() == undefined) {
-        aa = $("ul.thousands li").eq(0);
-        if (val != 0) {
-          aa.addClass("before")
-            .removeClass("active");
-        }
-        nxt = $("ul.thousands li").eq(val);
+        nxt = $("ul." + position + " li").eq(val);
         nxt.addClass("active")
           .closest("body")
           .addClass("play");
@@ -130,145 +79,144 @@ export default class FlipCounter {
     this.currentValue += val;
   }
   
-    thousandsIncrement() {
-        $("body").removeClass("play");
-        var aa = $("ul.thousands li.active");
+  thousandsIncrement() {
+      $("body").removeClass("play");
+      var aa = $("ul.thousands li.active");
+  
+      if (aa.html() == undefined) {
+          aa = $("ul.thousands li").eq(0);
+          aa.addClass("before")
+              .removeClass("active")
+              .next("li")
+              .addClass("active")
+              .closest("body")
+              .addClass("play");
+  
+      }
+      else if (aa.is(":last-child")) {
+          $("ul.thousands li").removeClass("before");
+          aa.addClass("before").removeClass("active");
+          aa = $("ul.hundreds li").eq(0);
+          aa.addClass("active")
+              .closest("body")
+              .addClass("play");
+          this.thousandsIncrement();
+      }
+      else {
+          $("ul.thousands li").removeClass("before");
+          aa.addClass("before")
+              .removeClass("active")
+              .next("li")
+              .addClass("active")
+              .closest("body")
+              .addClass("play");
+      }
+  
+  }
     
-        if (aa.html() == undefined) {
-            aa = $("ul.thousands li").eq(0);
-            aa.addClass("before")
-                .removeClass("active")
-                .next("li")
-                .addClass("active")
-                .closest("body")
-                .addClass("play");
+  hundredsIncrement() {
+      $("body").removeClass("play");
+      var aa = $("ul.hundreds li.active");
+  
+      if (aa.html() == undefined) {
+          aa = $("ul.minutePlay li").eq(0);
+          aa.addClass("before")
+              .removeClass("active")
+              .next("li")
+              .addClass("active")
+              .closest("body")
+              .addClass("play");
+  
+      }
+      else if (aa.is(":last-child")) {
+          $("ul.hundreds li").removeClass("before");
+          aa.addClass("before").removeClass("active");
+          aa = $("ul.hundreds li").eq(0);
+          aa.addClass("active")
+              .closest("body")
+              .addClass("play");
+          this.thousandsIncrement();
+      }
+      else {
+          $("ul.hundreds li").removeClass("before");
+          aa.addClass("before")
+              .removeClass("active")
+              .next("li")
+              .addClass("active")
+              .closest("body")
+              .addClass("play");
+      }
+  }
     
-        }
-        else if (aa.is(":last-child")) {
-            $("ul.thousands li").removeClass("before");
-            aa.addClass("before").removeClass("active");
-            aa = $("ul.hundreds li").eq(0);
-            aa.addClass("active")
-                .closest("body")
-                .addClass("play");
-            this.thousandsIncrement();
-        }
-        else {
-            $("ul.thousands li").removeClass("before");
-            aa.addClass("before")
-                .removeClass("active")
-                .next("li")
-                .addClass("active")
-                .closest("body")
-                .addClass("play");
-        }
     
+  tensIncrement() {
+      $("body").removeClass("play");
+      var aa = $("ul.tens li.active");
+  
+      if (aa.html() == undefined) {
+          aa = $("ul.tens li").eq(0);
+          aa.addClass("before")
+              .removeClass("active")
+              .next("li")
+              .addClass("active")
+              .closest("body")
+              .addClass("play");
+  
+      }
+      else if (aa.is(":last-child")) {
+          $("ul.tens li").removeClass("before");
+          aa.addClass("before").removeClass("active");
+          aa = $("ul.tens li").eq(0);
+          aa.addClass("active")
+              .closest("body")
+              .addClass("play");
+          this.hundredsIncrement();
+      }
+      else {
+          $("ul.tens li").removeClass("before");
+          aa.addClass("before")
+              .removeClass("active")
+              .next("li")
+              .addClass("active")
+              .closest("body")
+              .addClass("play");
+      }
+  
+  }
+    
+  unitsIncrement() {
+    $("body").removeClass("play");
+    var aa = $("ul.units li.active");
+
+    if (aa.html() == undefined) {
+        aa = $("ul.units li").eq(0);
+        aa.addClass("before")
+            .removeClass("active")
+            .next("li")
+            .addClass("active")
+            .closest("body")
+            .addClass("play");
+
     }
-    
-    hundredsIncrement() {
-        $("body").removeClass("play");
-        var aa = $("ul.hundreds li.active");
-    
-        if (aa.html() == undefined) {
-            aa = $("ul.minutePlay li").eq(0);
-            aa.addClass("before")
-                .removeClass("active")
-                .next("li")
-                .addClass("active")
-                .closest("body")
-                .addClass("play");
-    
-        }
-        else if (aa.is(":last-child")) {
-            $("ul.hundreds li").removeClass("before");
-            aa.addClass("before").removeClass("active");
-            aa = $("ul.hundreds li").eq(0);
-            aa.addClass("active")
-                .closest("body")
-                .addClass("play");
-            this.thousandsIncrement();
-        }
-        else {
-            $("ul.hundreds li").removeClass("before");
-            aa.addClass("before")
-                .removeClass("active")
-                .next("li")
-                .addClass("active")
-                .closest("body")
-                .addClass("play");
-        }
-    
+    else if (aa.is(":last-child")) {
+        $("ul.units li").removeClass("before");
+        aa.addClass("before").removeClass("active");
+        aa = $("ul.units li").eq(0);
+        aa.addClass("active")
+            .closest("body")
+            .addClass("play");
+        this.tensIncrement();
     }
-    
-    
-    tensIncrement() {
-        $("body").removeClass("play");
-        var aa = $("ul.tens li.active");
-    
-        if (aa.html() == undefined) {
-            aa = $("ul.tens li").eq(0);
-            aa.addClass("before")
-                .removeClass("active")
-                .next("li")
-                .addClass("active")
-                .closest("body")
-                .addClass("play");
-    
-        }
-        else if (aa.is(":last-child")) {
-            $("ul.tens li").removeClass("before");
-            aa.addClass("before").removeClass("active");
-            aa = $("ul.tens li").eq(0);
-            aa.addClass("active")
-                .closest("body")
-                .addClass("play");
-            this.hundredsIncrement();
-        }
-        else {
-            $("ul.tens li").removeClass("before");
-            aa.addClass("before")
-                .removeClass("active")
-                .next("li")
-                .addClass("active")
-                .closest("body")
-                .addClass("play");
-        }
-    
+    else {
+        $("ul.units li").removeClass("before");
+        aa.addClass("before")
+            .removeClass("active")
+            .next("li")
+            .addClass("active")
+            .closest("body")
+            .addClass("play");
     }
-    
-    unitsIncrement() {
-        $("body").removeClass("play");
-        var aa = $("ul.units li.active");
-    
-        if (aa.html() == undefined) {
-            aa = $("ul.units li").eq(0);
-            aa.addClass("before")
-                .removeClass("active")
-                .next("li")
-                .addClass("active")
-                .closest("body")
-                .addClass("play");
-    
-        }
-        else if (aa.is(":last-child")) {
-            $("ul.units li").removeClass("before");
-            aa.addClass("before").removeClass("active");
-            aa = $("ul.units li").eq(0);
-            aa.addClass("active")
-                .closest("body")
-                .addClass("play");
-            this.tensIncrement();
-        }
-        else {
-            $("ul.units li").removeClass("before");
-            aa.addClass("before")
-                .removeClass("active")
-                .next("li")
-                .addClass("active")
-                .closest("body")
-                .addClass("play");
-        }
-        let snd = new Audio("./assets/sounds/click.wav");
-        snd.play();
-    }
+    let snd = new Audio("./assets/sounds/click.wav");
+    snd.play();
+  }
 }
