@@ -10,6 +10,10 @@ module.exports = {
                 test:   /\.js/,
                 loader: 'babel-loader',
                 include: __dirname + '/src',
+            },
+            {
+                test:   /\.html/,
+                loader: 'html-loader',
             }
         ],
     }

@@ -1,4 +1,5 @@
 import $ from 'jquery';
+import Flip from '../Digit'
 
 export default class FlipCounter {
   constructor(minValue, maxValue) {
@@ -60,6 +61,42 @@ export default class FlipCounter {
           .addClass("play");
       }
     }
+  }
+  
+  incrementFlip(position) {
+    $("body").removeClass("play");
+    var aa = $("ul." + position + " li.active");
+
+    if (aa.html() == undefined) {
+      aa = $("ul." + position + " li").eq(0);
+      aa.addClass("before")
+        .removeClass("active")
+        .next("li")
+        .addClass("active")
+        .closest("body")
+        .addClass("play");
+    }
+    else if (aa.is(":last-child")) {
+      $("ul." + position + " li").removeClass("before");
+      aa.addClass("before").removeClass("active");
+      aa = $("ul." + position + " li").eq(0);
+      aa.addClass("active")
+        .closest("body")
+        .addClass("play");
+      // TODO
+      this.incrementFlip(position.next())
+    }
+    else {
+      $("ul." + position + " li").removeClass("before");
+      aa.addClass("before")
+        .removeClass("active")
+        .next("li")
+        .addClass("active")
+        .closest("body")
+        .addClass("play");
+    }
+    let snd = new Audio("./assets/sounds/click.wav");
+    snd.play();
   }
   
   add(val) {
