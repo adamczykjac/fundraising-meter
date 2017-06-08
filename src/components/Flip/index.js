@@ -1,24 +1,13 @@
 import $ from 'jquery';
 import Digit from '../Digit'
 import Mustache from 'mustache';
-import flipTemplate from './index.html';
 
 export default class Flip {
-  constructor(value) {
+  constructor() {
     this.MIN_VALUE = 0;
     this.MAX_VALUE = 9;
     this.node = {}
-    
-    if( typeof value != "number" || this.MAX_VALUE < value < this.MIN_VALUE ) {
-      throw new Error("Digit cannot be initialized with a number " + value)
-    }
-    else if( !value ) {
-      this._currentValue = 0;
-    }
-    else {
-      this._currentValue = value
-      this.flipTo(this._currentValue)
-    }
+    this._currentValue = 0;
   }
   
   set currentValue(val) {
@@ -27,6 +16,13 @@ export default class Flip {
 
   get currentValue() {
     return this._currentValue;
+  }
+  
+  getFlipSettings() {
+    return {
+      MIN_VALUE: this.MIN_VALUE,
+      MAX_VALUE: this.MAX_VALUE
+    }
   }
   
   flipTo(value) {

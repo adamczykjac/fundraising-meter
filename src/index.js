@@ -1,13 +1,13 @@
 import $ from 'jquery';
 import Flip from './components/Flip'
-// import FlipCounter from './components/FlipCounter'
+import FlipCounter from './components/FlipCounter'
 
-let nodeThousands = $('.flip.thousands')
-let fThousands = new Flip(1)
-nodeThousands.html(fThousands.render(nodeThousands))
-fThousands.flipTo(6)
-// let fc = new FlipCounter(0, 9999);
-// fc.init()
+let fc = new FlipCounter(0, 9999, 199);
+fc.init()
+
+setTimeout(() => {
+  fc.incrementFlip(3)
+}, 1000)
 // 
 // // Move to class events
 // $(window).click(function() {
