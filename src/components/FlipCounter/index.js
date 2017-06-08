@@ -74,24 +74,12 @@ export default class FlipCounter {
       let nextFlipCounterPosition = position - 1
       if(this.flipsObjectsArr[nextFlipCounterPosition]) this.incrementFlip(nextFlipCounterPosition)
     }
-    let snd = new Audio("./assets/sounds/click.wav");
-    snd.play();
   }
   
-  // add(val) {
-  //   var _this = this;
-  //   var i = 0;
-  //   myLoop();
-  //   
-  //   function myLoop () {
-  //     setTimeout(function () {
-  //       _this.unitsIncrement();
-  //       i++;
-  //       if (i < val) {
-  //         myLoop();
-  //       }
-  //     }, 100)
-  //   }
-  //   this.currentValue += val;
-  // }
+  add(val) {
+    setTimeout(() => {
+      this.incrementFlip(this.MAX_VALUE.toString().length - 1);
+      this.currentValue += 1
+    }, 100)
+  }
 }

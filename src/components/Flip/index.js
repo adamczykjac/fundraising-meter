@@ -32,7 +32,8 @@ export default class Flip {
                  .addClass("before");
     }
     let newlyActive = $(this.node).find("li").eq(value);
-    newlyActive.addClass("active")
+    newlyActive.removeClass("before")
+               .addClass("active")
                .closest("body")
                .addClass("play");
     this.currentValue = value;
